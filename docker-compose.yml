@@ -1,0 +1,10 @@
+version: '2.1'
+
+services:
+  cartoons-backend:
+    image: cartoons-backend
+    build: .
+    environment:
+      NODE_ENV: production
+    ports:
+      - 3003:3003

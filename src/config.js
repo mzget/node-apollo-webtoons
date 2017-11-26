@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const devConfig = {
-    dbHost: "mongodb://localhost:27017/webcartoons",
+    dbHost: "mongodb://mzget:mzget1234@chitchats.ga:27017/test-webtoons",
     apikey: "webcartoons",
 };
 const masterConfig = {
-    dbHost: "mongodb://localhost:27017/webcartoons",
+    dbHost: "mongodb://mzget:mzget1234@chitchats.ga:27017/test-webtoons",
     apikey: "webcartoons",
 };
 const getConfig = () => {

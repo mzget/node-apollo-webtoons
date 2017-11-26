@@ -1,0 +1,9 @@
+- docker build -t mzget/node-webtoons .
+- docker run --name node-webtoons -p 4000:4000 -d mzget/node-webtoons
+
+
+// push to docker hub 
+$ docker push mzget/node-webtoons
+
+// pull for production
+$ docker pull mzget/node-webtoons
