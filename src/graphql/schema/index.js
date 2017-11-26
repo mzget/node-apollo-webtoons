@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_tools_1 = require("graphql-tools");
-const programs_1 = require("../../mock/programs");
+const Mocks_1 = require("../../mock/Mocks");
 const Lang_1 = require("./Lang");
 const Program_1 = require("./Program");
 const Season_1 = require("./Season");
@@ -10,7 +10,8 @@ const RootQuery = `
 type Query {
     hello: String
     lists : [Program]
-    seasons(id: Int!): [Season]
+    seasons(programId: Int!): [Season]
+    season(programId: Int!, id: Int!): Season
 }
 `;
 const SchemaDefinition = `
@@ -29,7 +30,19 @@ const resolvers = {
             return "world";
         },
         lists(obj, args, context, info) {
-            return programs_1.Programs;
+            return Mocks_1.Programs;
+        },
+        seasons(obj, args, context, info) {
+            const seasons = Mocks_1.Seasons.filter((season) => {
+                return season.programId === args.programId;
+            });
+            return seasons;
+        },
+        season(obj, args, context, info) {
+            const seasons = Mocks_1.Seasons.filter((season) => {
+                return season.programId === args.programId;
+            });
+            return seasons[args.id];
         },
     },
 };

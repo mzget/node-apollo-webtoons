@@ -1,6 +1,7 @@
 export const Season = [`
 type Season {
   no: Int!
-  name: Lang
+  programId: Int!
+  name: String
 }
 `];
