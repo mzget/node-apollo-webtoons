@@ -1,8 +1,10 @@
-export const Cartoon = [`
-type Cartoon {
+export const Content = [`
+type Content {
+  id: String!
   name: Lang
-  season: Int
+  seasonId: String
   epName: Lang
   src: String
+  season: Season
 }
 `];

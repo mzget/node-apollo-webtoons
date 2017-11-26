@@ -1,10 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Cartoon = [`
-type Cartoon {
+exports.Content = [`
+type Content {
+  id: String!
   name: Lang
-  season: Int
+  seasonId: String
   epName: Lang
   src: String
+  season: Season
 }
 `];
