@@ -1,4 +1,5 @@
 import * as express from "express";
+import * as cors from "cors";
 const path = require("path");
 const favicon = require("serve-favicon");
 const logger = require("morgan");
@@ -6,12 +7,13 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
 import { InitDatabaseConnection } from "./dbClient";
-import schema from "./graphql/schema";
+import schema from "./graphql/schema/index";
 
 process.env.NODE_ENV = `development`;
 global["version"] = "0.0.1";
 
 const app = express();
+app.use(cors());
 if (app.get("env") === "development") {
   process.env.PORT = "4000";
 } else if (app.get("env") === "production") {
@@ -27,7 +29,7 @@ InitDatabaseConnection().then((db) => {
   console.error(err.message);
 });
 
-const index = require("./routes/index");
+import index from "./routes/index";
 const users = require("./routes/users");
 
 // uncomment after placing your favicon in /public

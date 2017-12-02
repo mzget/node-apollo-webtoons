@@ -14,7 +14,6 @@ const log = { log: (error: string | Error) => console.log(error) };
 
 const RootQuery = `
 type Query {
-    hello: String
     lists : [Program]
     seasons(programId: Int!): [Season]
     season(programId: Int!, id: Int!): Season
@@ -34,9 +33,6 @@ const typeDefs = [SchemaDefinition, RootQuery,
 ];
 const resolvers = {
     Query: {
-        hello(root) {
-            return "world";
-        },
         lists(obj, args, context, info) {
             return MockProgram;
         },

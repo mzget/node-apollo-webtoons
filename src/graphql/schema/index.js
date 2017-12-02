@@ -9,7 +9,6 @@ const Season_1 = require("./Season");
 const log = { log: (error) => console.log(error) };
 const RootQuery = `
 type Query {
-    hello: String
     lists : [Program]
     seasons(programId: Int!): [Season]
     season(programId: Int!, id: Int!): Season
@@ -29,9 +28,6 @@ const typeDefs = [SchemaDefinition, RootQuery,
 ];
 const resolvers = {
     Query: {
-        hello(root) {
-            return "world";
-        },
         lists(obj, args, context, info) {
             return Mocks_1.Programs;
         },

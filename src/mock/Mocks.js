@@ -107,12 +107,13 @@ exports.Seasons = [
 ];
 exports.Contents = [
     {
-        id: "",
+        id: "1",
         name: {
             th: "",
             en: "",
         },
         seasonId: "1",
+        epNo: 1,
         epName: {
             th: "ฉันคือลูฟี่! ชายที่จะเป็นราชาโจรสลัด!",
             en: "",
