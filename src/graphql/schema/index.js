@@ -12,7 +12,7 @@ type Query {
     lists : [Program]
     seasons(programId: Int!): [Season]
     season(programId: Int!, id: Int!): Season
-    contents(seasonId: String!) : [Content]
+    contents(seasonId: String) : [Content]
 }
 `;
 const SchemaDefinition = `
@@ -47,10 +47,15 @@ const resolvers = {
         },
         contents(obj, args, context, info) {
             const { seasonId } = args;
-            const contents = Mocks_1.Contents.filter((content) => {
-                return content.seasonId === seasonId;
-            });
-            return contents;
+            if (seasonId) {
+                const contents = Mocks_1.Contents.filter((content) => {
+                    return content.seasonId === seasonId;
+                });
+                return contents;
+            }
+            else {
+                return Mocks_1.Contents;
+            }
         },
     },
     Content: {
@@ -59,6 +64,12 @@ const resolvers = {
                 return season.id === content.seasonId;
             });
             return seasons[0];
+        },
+    },
+    Season: {
+        program: (season) => {
+            const programs = Mocks_1.Programs.filter((program) => program.id === season.programId);
+            return programs[0];
         },
     },
 };
