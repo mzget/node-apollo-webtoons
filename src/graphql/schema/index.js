@@ -1,4 +1,12 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_tools_1 = require("graphql-tools");
 const Mocks_1 = require("../../mock/Mocks");
@@ -6,6 +14,8 @@ const Cartoon_1 = require("./Cartoon");
 const Lang_1 = require("./Lang");
 const Program_1 = require("./Program");
 const Season_1 = require("./Season");
+/** resolver fucntions */
+const contents_1 = require("../../routes/contents");
 const log = { log: (error) => console.log(error) };
 const RootQuery = `
 type Query {
@@ -47,28 +57,28 @@ const resolvers = {
             return seasons[id];
         },
         contents(obj, args, context, info) {
-            const { seasonId } = args;
-            if (seasonId) {
-                const contents = Mocks_1.Contents.filter((content) => {
-                    return content.seasonId === seasonId;
-                });
-                return contents;
-            }
-            else {
-                return Mocks_1.Contents;
-            }
+            return __awaiter(this, void 0, void 0, function* () {
+                const { seasonId } = args;
+                if (seasonId) {
+                    const docs = yield contents_1.findContents(seasonId);
+                    return docs;
+                }
+                else {
+                    return null;
+                }
+            });
         },
         content(obj, args, context, info) {
-            const { episode } = args;
-            if (episode) {
-                const contents = Mocks_1.Contents.filter((content) => {
-                    return content.epNo === episode;
-                });
-                return contents[0];
-            }
-            else {
-                return null;
-            }
+            return __awaiter(this, void 0, void 0, function* () {
+                const { episode } = args;
+                if (episode) {
+                    const docs = yield contents_1.findContent(episode);
+                    return docs[0];
+                }
+                else {
+                    return null;
+                }
+            });
         },
     },
     Content: {

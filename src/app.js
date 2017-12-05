@@ -29,7 +29,6 @@ dbClient_1.InitDatabaseConnection().then((db) => {
     console.error(err.message);
 });
 const index_2 = require("./routes/index");
-const users = require("./routes/users");
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger("dev"));
@@ -38,7 +37,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/", index_2.default);
-app.use("/users", users);
 app.use("/api/graphql", bodyParser.json(), apollo_server_express_1.graphqlExpress((request) => ({
     schema: index_1.default,
     context: { headers: request.headers },

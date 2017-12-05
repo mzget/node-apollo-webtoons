@@ -10,6 +10,9 @@ import { Lang } from "./Lang";
 import { Program } from "./Program";
 import { Season } from "./Season";
 
+/** resolver fucntions */
+import contentResolver, { findContent, findContents } from "../../routes/contents";
+
 const log = { log: (error: string | Error) => console.log(error) };
 
 const RootQuery = `
@@ -51,24 +54,20 @@ const resolvers = {
             });
             return seasons[id];
         },
-        contents(obj, args, context, info) {
+        async contents(obj, args, context, info) {
             const { seasonId } = args as { seasonId: string };
             if (seasonId) {
-                const contents = MockContent.filter((content) => {
-                    return content.seasonId === seasonId;
-                });
-                return contents;
+                const docs = await findContents(seasonId);
+                return docs;
             } else {
-                return MockContent;
+                return null;
             }
         },
-        content(obj, args, context, info) {
+        async content(obj, args, context, info) {
             const { episode } = args as { episode: number };
             if (episode) {
-                const contents = MockContent.filter((content) => {
-                    return content.epNo === episode;
-                });
-                return contents[0];
+                const docs = await findContent(episode);
+                return docs[0];
             } else {
                 return null;
             }

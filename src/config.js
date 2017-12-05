@@ -12,5 +12,8 @@ const getConfig = () => {
     const conf = (process.env.NODE_ENV === `production`) ? masterConfig : devConfig;
     return conf;
 };
+exports.dbCollections = {
+    CONTENTS: "contents",
+};
 exports.Config = getConfig();
 exports.default = exports.Config;

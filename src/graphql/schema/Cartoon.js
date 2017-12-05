@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Content = [`
 type Content {
-  id: String!
+  _id: String!
   name: Lang
   seasonId: String
   epNo: Int

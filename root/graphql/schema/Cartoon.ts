@@ -1,6 +1,6 @@
 export const Content = [`
 type Content {
-  id: String!
+  _id: String!
   name: Lang
   seasonId: String
   epNo: Int
