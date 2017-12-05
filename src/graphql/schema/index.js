@@ -13,6 +13,7 @@ type Query {
     seasons(programId: Int!): [Season]
     season(programId: Int!, id: Int!): Season
     contents(seasonId: String) : [Content]
+    content(episode: Int!) : Content
 }
 `;
 const SchemaDefinition = `
@@ -55,6 +56,18 @@ const resolvers = {
             }
             else {
                 return Mocks_1.Contents;
+            }
+        },
+        content(obj, args, context, info) {
+            const { episode } = args;
+            if (episode) {
+                const contents = Mocks_1.Contents.filter((content) => {
+                    return content.epNo === episode;
+                });
+                return contents[0];
+            }
+            else {
+                return null;
             }
         },
     },
