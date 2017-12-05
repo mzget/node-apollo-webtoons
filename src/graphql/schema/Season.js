@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Season = [`
 type Season {
   _id: String!
-  no: Int!
+  no: Int
   name: String
-  programId: String!
+  programId: String
   program: Program
 }
 `];

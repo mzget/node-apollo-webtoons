@@ -1,9 +1,9 @@
 import { makeExecutableSchema, mockServer } from "graphql-tools";
 
 import {
-    Programs as MockProgram,
-    Seasons as MockSeason,
-    Contents as MockContent,
+    // Programs as MockProgram,
+    // Seasons as MockSeason,
+    // Contents as MockContent,
 } from "../../mock/Mocks";
 import { Content } from "./Cartoon";
 import { Lang } from "./Lang";
@@ -72,11 +72,12 @@ const resolvers = {
         },
     },
     Content: {
-        season: (content) => {
-            const seasons = MockSeason.filter((season) => {
-                return season.id === content.seasonId;
+        season: async (content) => {
+            const seasons = await FindSeason(content.programId);
+            const results = seasons.filter((season) => {
+                return `${season._id}` === `${content.seasonId}`;
             });
-            return seasons[0];
+            return results[0];
         },
     },
     Season: {

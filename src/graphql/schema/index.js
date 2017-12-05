@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_tools_1 = require("graphql-tools");
-const Mocks_1 = require("../../mock/Mocks");
 const Cartoon_1 = require("./Cartoon");
 const Lang_1 = require("./Lang");
 const Program_1 = require("./Program");
@@ -84,12 +83,13 @@ const resolvers = {
         },
     },
     Content: {
-        season: (content) => {
-            const seasons = Mocks_1.Seasons.filter((season) => {
-                return season.id === content.seasonId;
+        season: (content) => __awaiter(this, void 0, void 0, function* () {
+            const seasons = yield seasons_1.findItems(content.programId);
+            const results = seasons.filter((season) => {
+                return `${season._id}` === `${content.seasonId}`;
             });
-            return seasons[0];
-        },
+            return results[0];
+        }),
     },
     Season: {
         program: (season) => __awaiter(this, void 0, void 0, function* () {
