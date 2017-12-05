@@ -9,7 +9,7 @@ import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
 import { InitDatabaseConnection } from "./dbClient";
 import schema from "./graphql/schema/index";
 
-process.env.NODE_ENV = `development`;
+process.env.NODE_ENV = `production`;
 global["version"] = "0.0.1";
 
 const app = express();

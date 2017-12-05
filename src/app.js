@@ -10,7 +10,7 @@ const bodyParser = require("body-parser");
 const apollo_server_express_1 = require("apollo-server-express");
 const dbClient_1 = require("./dbClient");
 const index_1 = require("./graphql/schema/index");
-process.env.NODE_ENV = `development`;
+process.env.NODE_ENV = `production`;
 global["version"] = "0.0.1";
 const app = express();
 app.use(cors());
