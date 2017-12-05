@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Program = [`
 type Program {
-  id: Int!
-  name: Lang!
+  _id: String!
+  name: Lang
 }
 `];

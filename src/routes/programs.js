@@ -18,24 +18,13 @@ const { ObjectID } = mongodb;
 router.get("/", (req, res, next) => {
     res.status(200).json({ title: "webtoons contents" });
 });
-function findContent(episode) {
+function findPrograms() {
     return __awaiter(this, void 0, void 0, function* () {
         const db = yield dbClient_1.getAppDb();
-        const collection = db.collection(config_1.dbCollections.CONTENTS);
-        yield collection.createIndex({ epNo: 1 });
-        const docs = yield collection.find({ epNo: episode }).limit(1).toArray();
+        const collection = db.collection(config_1.dbCollections.PROGRAMS);
+        const docs = yield collection.find({}).toArray();
         return docs;
     });
 }
-exports.findContent = findContent;
-function findContents(programId, seasonId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const db = yield dbClient_1.getAppDb();
-        const collection = db.collection(config_1.dbCollections.CONTENTS);
-        yield collection.createIndex({ seasonId: 1 });
-        const docs = yield collection.find({ programId: new ObjectID(programId.toString()) }).toArray();
-        return docs;
-    });
-}
-exports.findContents = findContents;
+exports.findPrograms = findPrograms;
 exports.default = router;

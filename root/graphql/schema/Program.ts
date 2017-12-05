@@ -1,6 +1,6 @@
 export const Program = [`
 type Program {
-  id: Int!
-  name: Lang!
+  _id: String!
+  name: Lang
 }
 `];

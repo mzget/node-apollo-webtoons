@@ -5,6 +5,7 @@ import { getAppDb } from "../dbClient";
 import { dbCollections } from "../config";
 
 const router = express.Router();
+const { ObjectID } = mongodb;
 
 /* GET users listing. */
 router.get("/", (req, res, next) => {
@@ -22,13 +23,13 @@ export async function findContent(episode: number) {
   return docs;
 }
 
-export async function findContents(seasonId: string) {
+export async function findContents(programId: string, seasonId: string) {
   const db = await getAppDb();
   const collection = db.collection(dbCollections.CONTENTS);
 
   await collection.createIndex({ seasonId: 1 });
 
-  const docs = await collection.find({ seasonId: seasonId.toString() }).toArray();
+  const docs = await collection.find({ programId: new ObjectID(programId.toString()) }).toArray();
 
   return docs;
 }

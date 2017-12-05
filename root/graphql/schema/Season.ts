@@ -1,9 +1,9 @@
 export const Season = [`
 type Season {
-  id: String!
+  _id: String!
   no: Int!
   name: String
-  programId: Int!
+  programId: String!
   program: Program
 }
 `];

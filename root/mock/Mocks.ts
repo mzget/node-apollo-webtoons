@@ -81,7 +81,7 @@ export const Seasons = [
         id: "15",
         no: 15,
         programId: 1,
-        name: "สงคราม มารีนฟอร์ด",
+        name: "เกาะมนุษย์เงือก",
     }, {
         id: "16",
         no: 16,

@@ -15,14 +15,16 @@ const Lang_1 = require("./Lang");
 const Program_1 = require("./Program");
 const Season_1 = require("./Season");
 /** resolver fucntions */
+const programs_1 = require("../../routes/programs");
+const seasons_1 = require("../../routes/seasons");
 const contents_1 = require("../../routes/contents");
 const log = { log: (error) => console.log(error) };
 const RootQuery = `
 type Query {
     lists : [Program]
-    seasons(programId: Int!): [Season]
-    season(programId: Int!, id: Int!): Season
-    contents(seasonId: String) : [Content]
+    seasons(programId: String!): [Season]
+    season(programId: String!, id: Int!): Season
+    contents(programId: String!, seasonId: String) : [Content]
     content(episode: Int!) : Content
 }
 `;
@@ -40,27 +42,27 @@ const typeDefs = [SchemaDefinition, RootQuery,
 const resolvers = {
     Query: {
         lists(obj, args, context, info) {
-            return Mocks_1.Programs;
+            return programs_1.findPrograms();
         },
         seasons(obj, args, context, info) {
-            const { programId } = args;
-            const seasons = Mocks_1.Seasons.filter((season) => {
-                return season.programId === programId;
+            return __awaiter(this, void 0, void 0, function* () {
+                const { programId } = args;
+                const seasons = yield seasons_1.findItems(programId);
+                return seasons;
             });
-            return seasons;
         },
         season(obj, args, context, info) {
-            const { programId, id } = args;
-            const seasons = Mocks_1.Seasons.filter((season) => {
-                return season.programId === programId;
+            return __awaiter(this, void 0, void 0, function* () {
+                const { programId, id } = args;
+                const seasons = yield seasons_1.findItems(programId);
+                return seasons[id];
             });
-            return seasons[id];
         },
         contents(obj, args, context, info) {
             return __awaiter(this, void 0, void 0, function* () {
-                const { seasonId } = args;
-                if (seasonId) {
-                    const docs = yield contents_1.findContents(seasonId);
+                const { seasonId, programId } = args;
+                if (programId || seasonId) {
+                    const docs = yield contents_1.findContents(programId, seasonId);
                     return docs;
                 }
                 else {
@@ -90,10 +92,13 @@ const resolvers = {
         },
     },
     Season: {
-        program: (season) => {
-            const programs = Mocks_1.Programs.filter((program) => program.id === season.programId);
-            return programs[0];
-        },
+        program: (season) => __awaiter(this, void 0, void 0, function* () {
+            const programs = yield programs_1.findPrograms();
+            const results = programs.filter((program) => {
+                return program._id.toString() === season.programId.toString();
+            });
+            return yield results[0];
+        }),
     },
 };
 const schema = graphql_tools_1.makeExecutableSchema({

@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Season = [`
 type Season {
-  id: String!
+  _id: String!
   no: Int!
   name: String
-  programId: Int!
+  programId: String!
   program: Program
 }
 `];

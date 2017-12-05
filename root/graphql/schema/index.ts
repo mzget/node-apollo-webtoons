@@ -11,6 +11,8 @@ import { Program } from "./Program";
 import { Season } from "./Season";
 
 /** resolver fucntions */
+import programsResolver, { findPrograms } from "../../routes/programs";
+import seasonResolver, { findItems as FindSeason } from "../../routes/seasons";
 import contentResolver, { findContent, findContents } from "../../routes/contents";
 
 const log = { log: (error: string | Error) => console.log(error) };
@@ -18,9 +20,9 @@ const log = { log: (error: string | Error) => console.log(error) };
 const RootQuery = `
 type Query {
     lists : [Program]
-    seasons(programId: Int!): [Season]
-    season(programId: Int!, id: Int!): Season
-    contents(seasonId: String) : [Content]
+    seasons(programId: String!): [Season]
+    season(programId: String!, id: Int!): Season
+    contents(programId: String!, seasonId: String) : [Content]
     content(episode: Int!) : Content
 }
 `;
@@ -38,26 +40,22 @@ const typeDefs = [SchemaDefinition, RootQuery,
 const resolvers = {
     Query: {
         lists(obj, args, context, info) {
-            return MockProgram;
+            return findPrograms();
         },
-        seasons(obj, args, context, info) {
-            const { programId } = args as { programId: number };
-            const seasons = MockSeason.filter((season) => {
-                return season.programId === programId;
-            });
+        async seasons(obj, args, context, info) {
+            const { programId } = args as { programId: string };
+            const seasons = await FindSeason(programId);
             return seasons;
         },
-        season(obj, args, context, info) {
-            const { programId, id } = args as { programId: number, id: number };
-            const seasons = MockSeason.filter((season) => {
-                return season.programId === programId;
-            });
+        async season(obj, args, context, info) {
+            const { programId, id } = args as { programId: string, id: number };
+            const seasons = await FindSeason(programId);
             return seasons[id];
         },
         async contents(obj, args, context, info) {
-            const { seasonId } = args as { seasonId: string };
-            if (seasonId) {
-                const docs = await findContents(seasonId);
+            const { seasonId, programId } = args as { seasonId: string, programId: string };
+            if (programId || seasonId) {
+                const docs = await findContents(programId, seasonId);
                 return docs;
             } else {
                 return null;
@@ -82,10 +80,13 @@ const resolvers = {
         },
     },
     Season: {
-        program: (season) => {
-            const programs = MockProgram.filter((program) => program.id === season.programId);
+        program: async (season) => {
+            const programs = await findPrograms();
+            const results = programs.filter((program) => {
+                return program._id.toString() === season.programId.toString();
+            });
 
-            return programs[0];
+            return await results[0];
         },
     },
 };
