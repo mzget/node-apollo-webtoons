@@ -21,12 +21,10 @@ else if (app.get("env") === "production") {
     process.env.PORT = "4000";
 }
 console.log("listen on ", process.env.PORT);
-dbClient_1.InitDatabaseConnection().then((client) => {
-    client.db("test-webtoons").stats().then((stat) => {
-        console.log("Success to connect db", stat);
-    }).catch((err) => {
-        console.error(err.message);
-    });
+dbClient_1.InitDatabaseConnection().then((client) => client.db("test-webtoons").stats().then((stat) => {
+    console.log("Success to connect db", stat);
+})).catch(err => {
+    console.error(err.message);
 });
 const index_2 = require("./routes/index");
 // uncomment after placing your favicon in /public

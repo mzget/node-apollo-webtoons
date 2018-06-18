@@ -21,12 +21,12 @@ if (app.get("env") === "development") {
 }
 console.log("listen on ", process.env.PORT);
 
-InitDatabaseConnection().then((client) => {
+InitDatabaseConnection().then((client) =>
   client.db("test-webtoons").stats().then((stat) => {
     console.log("Success to connect db", stat);
-  }).catch((err) => {
-    console.error(err.message);
-  });
+  })
+).catch(err => {
+  console.error(err.message);
 });
 
 import index from "./routes/index";
