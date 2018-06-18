@@ -13,4 +13,6 @@
 
 # [START app_yaml]
 runtime: nodejs8
+handlers:
+- secure: optional
 # [END app_yaml]
