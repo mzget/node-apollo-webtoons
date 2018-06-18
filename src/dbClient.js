@@ -20,7 +20,7 @@ const host = nconf.get('mongoHost');
 const port = nconf.get('mongoPort');
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
 if (nconf.get('mongoDatabase')) {
-    uri = `${uri}/${nconf.get('mongoDatabase')}?ssl=false`;
+    uri = `${uri}/${nconf.get('mongoDatabase')}`;
 }
 let client = Object.create(null);
 exports.getAppDb = () => {

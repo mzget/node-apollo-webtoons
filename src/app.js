@@ -8,6 +8,7 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const apollo_server_express_1 = require("apollo-server-express");
+const nconf = require("nconf");
 const dbClient_1 = require("./dbClient");
 const index_1 = require("./graphql/schema/index");
 process.env.NODE_ENV = `production`;
@@ -21,7 +22,11 @@ else if (app.get("env") === "production") {
     process.env.PORT = "4000";
 }
 console.log("listen on ", process.env.PORT);
-dbClient_1.InitDatabaseConnection().then((client) => client.db("test-webtoons").stats().then((stat) => {
+// Read in keys and secrets. Using nconf use can set secrets via
+// environment variables, command-line arguments, or a keys.json file.
+nconf.argv().env().file('keys.json');
+const database = nconf.get('mongoDatabase');
+dbClient_1.InitDatabaseConnection().then((client) => client.db(database).stats().then((stat) => {
     console.log("Success to connect db", stat);
 })).catch(err => {
     console.error(err.message);

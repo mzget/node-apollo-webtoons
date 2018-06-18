@@ -3,13 +3,8 @@ const devConfig = {
     apikey: "webcartoons",
 };
 
-const masterConfig = {
-    dbHost: "mongodb://mzget:mzget1234@chitchats.ga:27017/test-webtoons",
-    apikey: "webcartoons",
-};
-
 const getConfig = () => {
-    const conf = (process.env.NODE_ENV === `production`) ? masterConfig : devConfig;
+    const conf = (process.env.NODE_ENV === `production`) ? devConfig : devConfig;
 
     return conf;
 };

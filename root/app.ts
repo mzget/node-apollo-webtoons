@@ -6,6 +6,8 @@ const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
+import * as nconf from 'nconf';
+
 import { InitDatabaseConnection } from "./dbClient";
 import schema from "./graphql/schema/index";
 
@@ -21,8 +23,13 @@ if (app.get("env") === "development") {
 }
 console.log("listen on ", process.env.PORT);
 
+// Read in keys and secrets. Using nconf use can set secrets via
+// environment variables, command-line arguments, or a keys.json file.
+nconf.argv().env().file('keys.json');
+
+const database = nconf.get('mongoDatabase');
 InitDatabaseConnection().then((client) =>
-  client.db("test-webtoons").stats().then((stat) => {
+  client.db(database).stats().then((stat) => {
     console.log("Success to connect db", stat);
   })
 ).catch(err => {

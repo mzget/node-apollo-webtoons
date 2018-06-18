@@ -1,8 +1,6 @@
 import * as mongodb from "mongodb";
 const MongoClient = mongodb.MongoClient;
-import { Config } from "./config";
 import * as nconf from 'nconf';
-
 // Read in keys and secrets. Using nconf use can set secrets via
 // environment variables, command-line arguments, or a keys.json file.
 nconf.argv().env().file('keys.json');
@@ -14,7 +12,7 @@ const port = nconf.get('mongoPort');
 
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
 if (nconf.get('mongoDatabase')) {
-    uri = `${uri}/${nconf.get('mongoDatabase')}?ssl=false`;
+    uri = `${uri}/${nconf.get('mongoDatabase')}`;
 }
 
 let client = Object.create(null) as mongodb.MongoClient;
