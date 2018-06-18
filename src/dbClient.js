@@ -18,12 +18,13 @@ const user = nconf.get('mongoUser');
 const pass = nconf.get('mongoPass');
 const host = nconf.get('mongoHost');
 const port = nconf.get('mongoPort');
+exports.database = nconf.get('mongoDatabase');
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
-if (nconf.get('mongoDatabase')) {
-    uri = `${uri}/${nconf.get('mongoDatabase')}`;
+if (exports.database) {
+    uri = `${uri}/${exports.database}`;
 }
 let client = Object.create(null);
-exports.getAppDb = () => {
+exports.getClient = () => {
     return client;
 };
 function InitDatabaseConnection() {

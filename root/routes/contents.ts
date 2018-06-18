@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as mongodb from "mongodb";
 
-import { getAppDb } from "../dbClient";
+import { getClient, database } from "../dbClient";
 import { dbCollections } from "../config";
 
 const router = express.Router();
@@ -13,8 +13,8 @@ router.get("/", (req, res, next) => {
 });
 
 export async function findContent(episode: number) {
-  const db = await getAppDb();
-  const collection = db.collection(dbCollections.CONTENTS);
+  const client = await getClient();
+  const collection = client.db(database).collection(dbCollections.CONTENTS);
 
   await collection.createIndex({ epNo: 1 });
 
@@ -24,8 +24,8 @@ export async function findContent(episode: number) {
 }
 
 export async function findContents(programId: string, seasonId: string) {
-  const db = await getAppDb();
-  const collection = db.collection(dbCollections.CONTENTS);
+  const client = await getClient();
+  const collection = client.db(database).collection(dbCollections.CONTENTS);
 
   await collection.createIndex({ seasonId: 1 });
 

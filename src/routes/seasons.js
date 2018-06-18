@@ -21,8 +21,8 @@ router.get("/", (req, res, next) => {
 });
 function findItems(programId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const db = yield dbClient_1.getAppDb();
-        const collection = db.collection(config_1.dbCollections.SEASONS);
+        const client = yield dbClient_1.getClient();
+        const collection = client.db(dbClient_1.database).collection(config_1.dbCollections.SEASONS);
         const docs = yield collection.find({ programId: new bson_1.ObjectId(programId.toString()) }).toArray();
         return docs;
     });

@@ -20,8 +20,8 @@ router.get("/", (req, res, next) => {
 });
 function findPrograms() {
     return __awaiter(this, void 0, void 0, function* () {
-        const db = yield dbClient_1.getAppDb();
-        const collection = db.collection(config_1.dbCollections.PROGRAMS);
+        const client = yield dbClient_1.getClient();
+        const collection = client.db(dbClient_1.database).collection(config_1.dbCollections.PROGRAMS);
         const docs = yield collection.find({}).toArray();
         return docs;
     });

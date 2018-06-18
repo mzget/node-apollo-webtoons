@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as mongodb from "mongodb";
 
-import { getAppDb } from "../dbClient";
+import { getClient, database } from "../dbClient";
 import { dbCollections } from "../config";
 
 const router = express.Router();
@@ -13,8 +13,8 @@ router.get("/", (req, res, next) => {
 });
 
 export async function findPrograms() {
-    const db = await getAppDb();
-    const collection = db.collection(dbCollections.PROGRAMS);
+    const client = await getClient();
+    const collection = client.db(database).collection(dbCollections.PROGRAMS);
 
     const docs = await collection.find({}).toArray();
 

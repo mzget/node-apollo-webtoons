@@ -1,7 +1,7 @@
 import * as express from "express";
 import * as mongodb from "mongodb";
 
-import { getAppDb } from "../dbClient";
+import { getClient, database } from "../dbClient";
 import { dbCollections } from "../config";
 import { ObjectId } from "bson";
 
@@ -14,8 +14,8 @@ router.get("/", (req, res, next) => {
 });
 
 export async function findItems(programId: string) {
-    const db = await getAppDb();
-    const collection = db.collection(dbCollections.SEASONS);
+    const client = await getClient();
+    const collection = client.db(database).collection(dbCollections.SEASONS);
 
     const docs = await collection.find({ programId: new ObjectId(programId.toString()) }).toArray();
 

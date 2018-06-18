@@ -20,8 +20,8 @@ router.get("/", (req, res, next) => {
 });
 function findContent(episode) {
     return __awaiter(this, void 0, void 0, function* () {
-        const db = yield dbClient_1.getAppDb();
-        const collection = db.collection(config_1.dbCollections.CONTENTS);
+        const client = yield dbClient_1.getClient();
+        const collection = client.db(dbClient_1.database).collection(config_1.dbCollections.CONTENTS);
         yield collection.createIndex({ epNo: 1 });
         const docs = yield collection.find({ epNo: episode }).limit(1).toArray();
         return docs;
@@ -30,8 +30,8 @@ function findContent(episode) {
 exports.findContent = findContent;
 function findContents(programId, seasonId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const db = yield dbClient_1.getAppDb();
-        const collection = db.collection(config_1.dbCollections.CONTENTS);
+        const client = yield dbClient_1.getClient();
+        const collection = client.db(dbClient_1.database).collection(config_1.dbCollections.CONTENTS);
         yield collection.createIndex({ seasonId: 1 });
         const docs = yield collection.find({ programId: new ObjectID(programId.toString()) }).toArray();
         return docs;
