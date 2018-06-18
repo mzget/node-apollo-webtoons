@@ -16,11 +16,6 @@ global["version"] = "0.0.1";
 
 const app = express();
 app.use(cors());
-if (app.get("env") === "development") {
-  process.env.PORT = "4000";
-} else if (app.get("env") === "production") {
-  process.env.PORT = "4000";
-}
 console.log("listen on ", process.env.PORT);
 
 // Read in keys and secrets. Using nconf use can set secrets via
