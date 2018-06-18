@@ -14,9 +14,8 @@ const port = nconf.get('mongoPort');
 
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
 if (nconf.get('mongoDatabase')) {
-    uri = `${uri}/${nconf.get('mongoDatabase')}`;
+    uri = `${uri}/${nconf.get('mongoDatabase')}?ssl=false`;
 }
-console.log(uri);
 
 let appDB = Object.create(null) as mongodb.Db;
 export const getAppDb = () => {
@@ -24,6 +23,9 @@ export const getAppDb = () => {
 };
 export async function InitDatabaseConnection() {
     const opt = { reconnectTries: Number.MAX_VALUE } as mongodb.MongoClientOptions;
+
+    console.log(uri);
+
     appDB = await MongoClient.connect(uri, opt);
 
     appDB.on("close", (err: any) => {

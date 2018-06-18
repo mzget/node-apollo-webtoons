@@ -20,9 +20,8 @@ const host = nconf.get('mongoHost');
 const port = nconf.get('mongoPort');
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
 if (nconf.get('mongoDatabase')) {
-    uri = `${uri}/${nconf.get('mongoDatabase')}`;
+    uri = `${uri}/${nconf.get('mongoDatabase')}?ssl=false`;
 }
-console.log(uri);
 let appDB = Object.create(null);
 exports.getAppDb = () => {
     return appDB;
@@ -30,6 +29,7 @@ exports.getAppDb = () => {
 function InitDatabaseConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         const opt = { reconnectTries: Number.MAX_VALUE };
+        console.log(uri);
         appDB = yield MongoClient.connect(uri, opt);
         appDB.on("close", (err) => {
             console.error("close", err);
