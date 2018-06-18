@@ -21,8 +21,8 @@ if (app.get("env") === "development") {
 }
 console.log("listen on ", process.env.PORT);
 
-InitDatabaseConnection().then((db) => {
-  db.stats().then((stat) => {
+InitDatabaseConnection().then((client) => {
+  client.db("test-webtoons").stats().then((stat) => {
     console.log("Success to connect db", stat);
   });
 }).catch((err) => {

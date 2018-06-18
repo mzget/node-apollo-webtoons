@@ -18,32 +18,33 @@ const user = nconf.get('mongoUser');
 const pass = nconf.get('mongoPass');
 const host = nconf.get('mongoHost');
 const port = nconf.get('mongoPort');
-let uri = `mongodb://${user}:${pass}@${host}:${port}`;
+// let uri = `mongodb://${user}:${pass}@${host}:${port}`;
+let uri = `mongodb+srv://mzget1234:mzget1234@cluster0-ef7x5.mongodb.net/test?retryWrites=true`;
 if (nconf.get('mongoDatabase')) {
-    uri = `${uri}/${nconf.get('mongoDatabase')}?ssl=false`;
+    // uri = `${uri}/${nconf.get('mongoDatabase')}?ssl=false`;
 }
-let appDB = Object.create(null);
+let client = Object.create(null);
 exports.getAppDb = () => {
-    return appDB;
+    return client;
 };
 function InitDatabaseConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         const opt = { reconnectTries: Number.MAX_VALUE };
         console.log(uri);
-        appDB = yield MongoClient.connect(uri, opt);
-        appDB.on("close", (err) => {
+        client = yield MongoClient.connect(uri, opt);
+        client.on("close", (err) => {
             console.error("close", err);
         });
-        appDB.on("error", (err) => {
+        client.on("error", (err) => {
             console.error("error", err);
         });
-        appDB.on("timeout", (err) => {
+        client.on("timeout", (err) => {
             console.error("timeout", err);
         });
-        appDB.on("reconnect", (server) => {
+        client.on("reconnect", (server) => {
             console.log("reconnect", server);
         });
-        return appDB;
+        return client;
     });
 }
 exports.InitDatabaseConnection = InitDatabaseConnection;
