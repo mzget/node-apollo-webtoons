@@ -18,10 +18,9 @@ const user = nconf.get('mongoUser');
 const pass = nconf.get('mongoPass');
 const host = nconf.get('mongoHost');
 const port = nconf.get('mongoPort');
-// let uri = `mongodb://${user}:${pass}@${host}:${port}`;
-let uri = `mongodb+srv://mzget1234:mzget1234@cluster0-ef7x5.mongodb.net/test?retryWrites=true`;
+let uri = `mongodb://${user}:${pass}@${host}:${port}`;
 if (nconf.get('mongoDatabase')) {
-    // uri = `${uri}/${nconf.get('mongoDatabase')}?ssl=false`;
+    uri = `${uri}/${nconf.get('mongoDatabase')}?ssl=false`;
 }
 let client = Object.create(null);
 exports.getAppDb = () => {
