@@ -10,7 +10,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
-const config_1 = require("./config");
+const nconf = require("nconf");
+// Read in keys and secrets. Using nconf use can set secrets via
+// environment variables, command-line arguments, or a keys.json file.
+nconf.argv().env().file('keys.json');
+const user = nconf.get('mongoUser');
+const pass = nconf.get('mongoPass');
+const host = nconf.get('mongoHost');
+const port = nconf.get('mongoPort');
+let uri = `mongodb://${user}:${pass}@${host}:${port}`;
+if (nconf.get('mongoDatabase')) {
+    uri = `${uri}/${nconf.get('mongoDatabase')}`;
+}
+console.log(uri);
 let appDB = Object.create(null);
 exports.getAppDb = () => {
     return appDB;
@@ -18,7 +30,7 @@ exports.getAppDb = () => {
 function InitDatabaseConnection() {
     return __awaiter(this, void 0, void 0, function* () {
         const opt = { reconnectTries: Number.MAX_VALUE };
-        appDB = yield MongoClient.connect(config_1.Config.dbHost, opt);
+        appDB = yield MongoClient.connect(uri, opt);
         appDB.on("close", (err) => {
             console.error("close", err);
         });
