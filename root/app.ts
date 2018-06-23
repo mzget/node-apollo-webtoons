@@ -8,10 +8,7 @@ import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
 import * as nconf from "nconf";
 
 import { InitDatabaseConnection } from "./dbClient";
-import schema from "./graphql/schema/index";
-
-process.env.NODE_ENV = `production`;
-global["version"] = "0.0.1";
+import schema from "./graphql";
 
 const app = express();
 app.use(cors());
@@ -43,8 +40,15 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", index);
 app.use("/api/graphql", bodyParser.json(), graphqlExpress((request: any) => ({
   schema,
-  context: { headers: request.headers },
+  context: {
+    headers: request.headers,
+    token: request.headers.token,
+    userAgent: request.headers["user-agent"],
+    forwardAddress: request.headers["x-forwarded-for"],
+  },
   debug: true,
+  tracing: true,
+  cacheControl: true,
 })));
 app.use("/api/graphiql", graphiqlExpress({
   endpointURL: "/api/graphql",

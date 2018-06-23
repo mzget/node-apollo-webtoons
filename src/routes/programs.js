@@ -8,16 +8,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express = require("express");
-const mongodb = require("mongodb");
 const dbClient_1 = require("../dbClient");
 const config_1 = require("../config");
-const router = express.Router();
-const { ObjectID } = mongodb;
-/* GET users listing. */
-router.get("/", (req, res, next) => {
-    res.status(200).json({ title: "webtoons contents" });
-});
 function findPrograms() {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield dbClient_1.getClient();
@@ -27,4 +19,3 @@ function findPrograms() {
     });
 }
 exports.findPrograms = findPrograms;
-exports.default = router;

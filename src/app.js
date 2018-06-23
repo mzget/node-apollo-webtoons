@@ -9,9 +9,7 @@ const bodyParser = require("body-parser");
 const apollo_server_express_1 = require("apollo-server-express");
 const nconf = require("nconf");
 const dbClient_1 = require("./dbClient");
-const index_1 = require("./graphql/schema/index");
-process.env.NODE_ENV = `production`;
-global["version"] = "0.0.1";
+const graphql_1 = require("./graphql");
 const app = express();
 app.use(cors());
 console.log("listen on ", process.env.PORT);
@@ -24,7 +22,7 @@ dbClient_1.InitDatabaseConnection().then((client) => client.db(database).stats()
 })).catch((err) => {
     console.error(err.message);
 });
-const index_2 = require("./routes/index");
+const index_1 = require("./routes/index");
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger("dev"));
@@ -32,11 +30,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use("/", index_2.default);
+app.use("/", index_1.default);
 app.use("/api/graphql", bodyParser.json(), apollo_server_express_1.graphqlExpress((request) => ({
-    schema: index_1.default,
-    context: { headers: request.headers },
+    schema: graphql_1.default,
+    context: {
+        headers: request.headers,
+        token: request.headers.token,
+        userAgent: request.headers["user-agent"],
+        forwardAddress: request.headers["x-forwarded-for"],
+    },
     debug: true,
+    tracing: true,
+    cacheControl: true,
 })));
 app.use("/api/graphiql", apollo_server_express_1.graphiqlExpress({
     endpointURL: "/api/graphql",

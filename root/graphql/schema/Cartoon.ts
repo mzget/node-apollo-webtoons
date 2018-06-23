@@ -8,5 +8,4 @@ type Content {
   seasonId: String
   season: Season
   programId: String
-}
-`];
+}`];
