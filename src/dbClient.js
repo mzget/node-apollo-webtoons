@@ -13,12 +13,12 @@ const MongoClient = mongodb.MongoClient;
 const nconf = require("nconf");
 // Read in keys and secrets. Using nconf use can set secrets via
 // environment variables, command-line arguments, or a keys.json file.
-nconf.argv().env().file('keys.json');
-const user = nconf.get('mongoUser');
-const pass = nconf.get('mongoPass');
-const host = nconf.get('mongoHost');
-const port = nconf.get('mongoPort');
-exports.database = nconf.get('mongoDatabase');
+nconf.argv().env().file("keys.json");
+const user = nconf.get("mongoUser");
+const pass = nconf.get("mongoPass");
+const host = nconf.get("mongoHost");
+const port = nconf.get("mongoPort");
+exports.database = nconf.get("mongoDatabase");
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
 if (exports.database) {
     uri = `${uri}/${exports.database}`;

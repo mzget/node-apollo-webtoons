@@ -3,7 +3,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const favicon = require("serve-favicon");
 const logger = require("morgan");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
@@ -18,11 +17,11 @@ app.use(cors());
 console.log("listen on ", process.env.PORT);
 // Read in keys and secrets. Using nconf use can set secrets via
 // environment variables, command-line arguments, or a keys.json file.
-nconf.argv().env().file('keys.json');
-const database = nconf.get('mongoDatabase');
+nconf.argv().env().file("keys.json");
+const database = nconf.get("mongoDatabase");
 dbClient_1.InitDatabaseConnection().then((client) => client.db(database).stats().then((stat) => {
     console.log("Success to connect db", stat);
-})).catch(err => {
+})).catch((err) => {
     console.error(err.message);
 });
 const index_2 = require("./routes/index");
