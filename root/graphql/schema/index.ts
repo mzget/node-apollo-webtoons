@@ -21,7 +21,7 @@ const RootQuery = `
 const Mutation = `
     # this schema allows the following mutation:
     type Mutation {
-        content(fields: ContentInput!): Content
+        content(fields: ContentInput!): String
     }
 `;
 

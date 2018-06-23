@@ -59,14 +59,15 @@ const resolvers = {
         },
     },
     Mutation: {
-        content: (obj, { fields }, context, info) => {
+        content: (obj, { fields }, context, info) => __awaiter(this, void 0, void 0, function* () {
             try {
-                return contentResolvers_1.updateContent(fields);
+                const result = yield contentResolvers_1.updateContent(fields);
+                return JSON.stringify(result);
             }
             catch (ex) {
                 return Promise.reject(ex);
             }
-        },
+        }),
     },
     Content: {
         season: (content) => __awaiter(this, void 0, void 0, function* () {

@@ -17,8 +17,6 @@ export async function findContent(episode: number) {
     const client = await getClient();
     const collection = client.db(database).collection(dbCollections.CONTENTS);
 
-    await collection.createIndex({ epNo: 1 });
-
     const docs = await collection.find({ epNo: episode }).limit(1).toArray();
 
     return docs;
@@ -38,6 +36,7 @@ export async function updateContent(data: IContent) {
     const collection = client.db(database).collection(dbCollections.CONTENTS);
 
     await collection.createIndex({ seasonId: 1 });
+    await collection.createIndex({ epNo: 1 });
 
     const update = {
         epNo: data.epNo,
@@ -52,5 +51,5 @@ export async function updateContent(data: IContent) {
         $set: update,
     }, { upsert: true });
 
-    return writeOps.ops[0];
+    return writeOps.result;
 }

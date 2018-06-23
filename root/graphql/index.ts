@@ -47,9 +47,10 @@ const resolvers = {
         },
     },
     Mutation: {
-        content: (obj, { fields }, context, info) => {
+        content: async (obj, { fields }, context, info) => {
             try {
-                return updateContent(fields);
+                const result = await updateContent(fields);
+                return JSON.stringify(result);
             } catch (ex) {
                 return Promise.reject(ex);
             }

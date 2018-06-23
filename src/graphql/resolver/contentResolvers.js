@@ -16,7 +16,6 @@ function findContent(episode) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield dbClient_1.getClient();
         const collection = client.db(dbClient_1.database).collection(config_1.dbCollections.CONTENTS);
-        yield collection.createIndex({ epNo: 1 });
         const docs = yield collection.find({ epNo: episode }).limit(1).toArray();
         return docs;
     });
@@ -36,6 +35,7 @@ function updateContent(data) {
         const client = yield dbClient_1.getClient();
         const collection = client.db(dbClient_1.database).collection(config_1.dbCollections.CONTENTS);
         yield collection.createIndex({ seasonId: 1 });
+        yield collection.createIndex({ epNo: 1 });
         const update = {
             epNo: data.epNo,
             epName: data.epName,
@@ -47,7 +47,7 @@ function updateContent(data) {
         const writeOps = yield collection.update({ epNo: data.epNo }, {
             $set: update,
         }, { upsert: true });
-        return writeOps.ops[0];
+        return writeOps.result;
     });
 }
 exports.updateContent = updateContent;
