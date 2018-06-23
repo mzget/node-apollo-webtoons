@@ -1,11 +1,16 @@
 import { makeExecutableSchema, mockServer } from "graphql-tools";
 
 import { typeDefs } from "./schema";
+import {
+    // Programs as MockProgram,
+    // Seasons as MockSeason,
+    Contents as MockContent,
+} from "../mock/Mocks";
 
 /** resolver fucntions */
 import { findPrograms } from "../routes/programs";
 import seasonResolver, { findItems as FindSeason } from "../routes/seasons";
-import contentResolver, { findContent, findContents } from "../routes/contents";
+import { findContent, findContents, updateContent } from "./resolver/contentResolvers";
 
 const resolvers = {
     Query: {
@@ -41,6 +46,15 @@ const resolvers = {
             }
         },
     },
+    Mutation: {
+        content: (obj, { fields }, context, info) => {
+            try {
+                return updateContent(fields);
+            } catch (ex) {
+                return Promise.reject(ex);
+            }
+        },
+    },
     Content: {
         season: async (content) => {
             const seasons = await FindSeason(content.programId);
@@ -62,12 +76,11 @@ const resolvers = {
     },
 };
 
-const log = { log: (error: string | Error) => console.log(error) };
+// const logger = { log: (error: string | Error) => console.log(error) };
 
 const schema = makeExecutableSchema({
     typeDefs,
     resolvers,
-    logger: log,
 });
 
 export default schema;

@@ -8,4 +8,14 @@ type Content {
   seasonId: String
   season: Season
   programId: String
-}`];
+}
+
+input ContentInput {
+  epNo: Int!
+  epName: InputLang!
+  src: String!
+  seasonId: String!
+  programId: String!
+  name: InputLang!
+}
+`];

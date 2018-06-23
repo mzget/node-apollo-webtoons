@@ -4,7 +4,7 @@ import {
     // Contents as MockContent,
 } from "../../mock/Mocks";
 
-import { Content } from "./cartoon";
+import { Content } from "./content";
 import { Lang } from "./lang";
 import { Program } from "./program";
 import { Season } from "./season";
@@ -18,14 +18,24 @@ const RootQuery = `
         content(episode: Int!) : Content
     }
 `;
-
-const SchemaDefinition = `
-    schema {
-    query: Query
+const Mutation = `
+    # this schema allows the following mutation:
+    type Mutation {
+        content(fields: ContentInput!): Content
     }
 `;
 
-export const typeDefs = [SchemaDefinition, RootQuery,
+const SchemaDefinition = `
+    schema {
+        query: Query
+        mutation: Mutation
+    }
+`;
+
+export const typeDefs = [
+    SchemaDefinition,
+    RootQuery,
+    Mutation,
     ...Program,
     ...Lang,
     ...Season,

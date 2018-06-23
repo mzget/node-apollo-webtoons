@@ -13,7 +13,7 @@ const schema_1 = require("./schema");
 /** resolver fucntions */
 const programs_1 = require("../routes/programs");
 const seasons_1 = require("../routes/seasons");
-const contents_1 = require("../routes/contents");
+const contentResolvers_1 = require("./resolver/contentResolvers");
 const resolvers = {
     Query: {
         lists(obj, args, context, info) {
@@ -37,7 +37,7 @@ const resolvers = {
             return __awaiter(this, void 0, void 0, function* () {
                 const { seasonId, programId } = args;
                 if (programId || seasonId) {
-                    const docs = yield contents_1.findContents(programId, seasonId);
+                    const docs = yield contentResolvers_1.findContents(programId, seasonId);
                     return docs;
                 }
                 else {
@@ -49,13 +49,23 @@ const resolvers = {
             return __awaiter(this, void 0, void 0, function* () {
                 const { episode } = args;
                 if (episode) {
-                    const docs = yield contents_1.findContent(episode);
+                    const docs = yield contentResolvers_1.findContent(episode);
                     return docs[0];
                 }
                 else {
                     return null;
                 }
             });
+        },
+    },
+    Mutation: {
+        content: (obj, { fields }, context, info) => {
+            try {
+                return contentResolvers_1.updateContent(fields);
+            }
+            catch (ex) {
+                return Promise.reject(ex);
+            }
         },
     },
     Content: {
@@ -77,10 +87,9 @@ const resolvers = {
         }),
     },
 };
-const log = { log: (error) => console.log(error) };
+// const logger = { log: (error: string | Error) => console.log(error) };
 const schema = graphql_tools_1.makeExecutableSchema({
     typeDefs: schema_1.typeDefs,
     resolvers,
-    logger: log,
 });
 exports.default = schema;
