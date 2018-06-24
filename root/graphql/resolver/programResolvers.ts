@@ -1,5 +1,5 @@
-import { getClient, database } from "../dbClient";
-import { dbCollections } from "../config";
+import { getClient, database } from "../../dbClient";
+import { dbCollections } from "../../config";
 
 export async function findPrograms() {
     const client = await getClient();

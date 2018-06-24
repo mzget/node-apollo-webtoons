@@ -11,25 +11,25 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const graphql_tools_1 = require("graphql-tools");
 const schema_1 = require("./schema");
 /** resolver fucntions */
-const programs_1 = require("../routes/programs");
-const seasons_1 = require("../routes/seasons");
+const programResolvers_1 = require("./resolver/programResolvers");
+const seasonResolvers_1 = require("./resolver/seasonResolvers");
 const contentResolvers_1 = require("./resolver/contentResolvers");
 const resolvers = {
     Query: {
         lists(obj, args, context, info) {
-            return programs_1.findPrograms();
+            return programResolvers_1.findPrograms();
         },
         seasons(obj, args, context, info) {
             return __awaiter(this, void 0, void 0, function* () {
                 const { programId } = args;
-                const seasons = yield seasons_1.findItems(programId);
+                const seasons = yield seasonResolvers_1.findItems(programId);
                 return seasons;
             });
         },
         season(obj, args, context, info) {
             return __awaiter(this, void 0, void 0, function* () {
                 const { programId, id } = args;
-                const seasons = yield seasons_1.findItems(programId);
+                const seasons = yield seasonResolvers_1.findItems(programId);
                 return seasons[id];
             });
         },
@@ -71,7 +71,7 @@ const resolvers = {
     },
     Content: {
         season: (content) => __awaiter(this, void 0, void 0, function* () {
-            const seasons = yield seasons_1.findItems(content.programId);
+            const seasons = yield seasonResolvers_1.findItems(content.programId);
             const results = seasons.filter((season) => {
                 return `${season._id}` === `${content.seasonId}`;
             });
@@ -80,7 +80,7 @@ const resolvers = {
     },
     Season: {
         program: (season) => __awaiter(this, void 0, void 0, function* () {
-            const programs = yield programs_1.findPrograms();
+            const programs = yield programResolvers_1.findPrograms();
             const results = programs.filter((program) => {
                 return program._id.toString() === season.programId.toString();
             });

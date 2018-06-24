@@ -8,8 +8,8 @@ import {
 } from "../mock/Mocks";
 
 /** resolver fucntions */
-import { findPrograms } from "../routes/programs";
-import seasonResolver, { findItems as FindSeason } from "../routes/seasons";
+import { findPrograms } from "./resolver/programResolvers";
+import { findItems as FindSeason } from "./resolver/seasonResolvers";
 import { findContent, findContents, updateContent } from "./resolver/contentResolvers";
 
 const resolvers = {
