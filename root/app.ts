@@ -1,9 +1,9 @@
 import * as express from "express";
 import * as cors from "cors";
-const path = require("path");
-const logger = require("morgan");
-const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
+import path = require("path");
+import logger = require("morgan");
+import cookieParser = require("cookie-parser");
+import bodyParser = require("body-parser");
 import { graphqlExpress, graphiqlExpress } from "apollo-server-express";
 import * as nconf from "nconf";
 
@@ -27,7 +27,7 @@ InitDatabaseConnection().then((client) =>
   console.error(err.message);
 });
 
-import index from "./routes/index";
+import index from "./routes";
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
