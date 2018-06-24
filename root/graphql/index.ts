@@ -1,4 +1,4 @@
-import { makeExecutableSchema, mockServer } from "graphql-tools";
+import { makeExecutableSchema, mockServer, IExecutableSchemaDefinition } from "graphql-tools";
 
 import { typeDefs } from "./schema";
 import {
@@ -78,10 +78,7 @@ const resolvers = {
 };
 
 // const logger = { log: (error: string | Error) => console.log(error) };
-
-const schema = makeExecutableSchema({
-    typeDefs,
-    resolvers,
-});
+const executeSchema = { typeDefs, resolvers } as IExecutableSchemaDefinition;
+const schema = makeExecutableSchema(executeSchema);
 
 export default schema;

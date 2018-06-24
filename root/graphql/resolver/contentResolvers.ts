@@ -26,7 +26,7 @@ export async function findContents(programId: string, seasonId: string) {
     const client = await getClient();
     const collection = client.db(database).collection(dbCollections.CONTENTS);
 
-    const docs = await collection.find({ programId: new ObjectID(programId.toString()) }).toArray();
+    const docs = await collection.find({ programId: new ObjectID(programId.toString()) }).sort({ epNo: 1 }).toArray();
 
     return docs;
 }

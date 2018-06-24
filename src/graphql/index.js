@@ -89,8 +89,6 @@ const resolvers = {
     },
 };
 // const logger = { log: (error: string | Error) => console.log(error) };
-const schema = graphql_tools_1.makeExecutableSchema({
-    typeDefs: schema_1.typeDefs,
-    resolvers,
-});
+const executeSchema = { typeDefs: schema_1.typeDefs, resolvers };
+const schema = graphql_tools_1.makeExecutableSchema(executeSchema);
 exports.default = schema;

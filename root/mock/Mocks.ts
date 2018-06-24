@@ -191,3 +191,46 @@ export const Contents = [
         src: `https://firebasestorage.googleapis.com/v0/b/awesome-barcode.appspot.com/o/%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%9E%E0%B8%B5%E0%B8%8A%20%E0%B8%95%E0%B8%AD%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88%20751.mp4?alt=media&token=13eb66f6-ffd5-447a-93de-5ca9fad70acd`,
     },
 ];
+
+const Seasons3 = [
+    {
+        epNo: 77,
+        epName: {
+            th: "ลาก่อน! เกาะคนยักษ์ มุ่งสู่อลาบัสต้า",
+            en: "",
+        },
+        src: "",
+    },
+    {
+        epNo: 78,
+        epName: {
+            th: "นามิไม่สบายงั้นเหรอ? อีกฟากฝั่งของหิมะที่ตกในทะเล",
+            en: "",
+        },
+        src: "",
+    },
+    {
+        epNo: 79,
+        epName: {
+            th: "เซอร์ไพรส์! เรือบลีคิงก์ และวาโปลผู้กินได้ทุกสิ่ง",
+            en: "",
+        },
+        src: "",
+    },
+    {
+        epNo: 80,
+        epName: {
+            th: "เกาะที่ไม่มีหมองั้นเหรอ ผจญภัยในอาณาจักรที่ไม่มีแม้แต่ชื่อ!",
+            en: "",
+        },
+        src: "",
+    },
+    {
+        epNo: 81,
+        epName: {
+            th: "สบายมั๊ยล่ะ หมอที่ทุกคนให้ฉายาว่า แม่มด",
+            en: "",
+        },
+        src: "",
+    },
+];
