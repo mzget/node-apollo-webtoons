@@ -1,7 +1,7 @@
 
 import { getClient, database } from "../../dbClient";
 import { dbCollections } from "../../config";
-import { ObjectId } from "bson";
+import { ObjectId } from "mongodb";
 
 export async function findItems(programId: string) {
     const client = await getClient();
