@@ -58,7 +58,8 @@ app.use("/api/graphiql", graphiqlExpress({
 app.use((req, res, next) => {
   const err = new Error("Not Found") as Error | any;
   err.status = 404;
-  next(err);
+  // next(err);
+  res.json(err).status(err.status);
 });
 
 // error handler

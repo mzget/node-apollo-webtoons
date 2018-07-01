@@ -50,7 +50,8 @@ app.use("/api/graphiql", apollo_server_express_1.graphiqlExpress({
 app.use((req, res, next) => {
     const err = new Error("Not Found");
     err.status = 404;
-    next(err);
+    // next(err);
+    res.json(err).status(err.status);
 });
 // error handler
 app.use((err, req, res, next) => {
