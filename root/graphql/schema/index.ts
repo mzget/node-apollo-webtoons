@@ -14,7 +14,7 @@ const RootQuery = `
         lists : [Program]
         seasons(programId: String!): [Season]
         season(programId: String!, id: Int!): Season
-        contents(programId: String!, seasonId: String) : [Content]
+        contents(programId: String!, seasonNo: Int) : [Content]
         content(episode: Int!) : Content
     }
 `;

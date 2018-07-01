@@ -25,7 +25,11 @@ function findContents(programId, seasonId) {
     return __awaiter(this, void 0, void 0, function* () {
         const client = yield dbClient_1.getClient();
         const collection = client.db(dbClient_1.database).collection(config_1.dbCollections.CONTENTS);
-        const docs = yield collection.find({ programId: new ObjectID(programId.toString()) }).sort({ epNo: 1 }).toArray();
+        const query = { programId: new ObjectID(programId.toString()) };
+        if (seasonId) {
+            query["seasonId"] = new ObjectID(seasonId.toString());
+        }
+        const docs = yield collection.find(query).sort({ epNo: 1 }).toArray();
         return docs;
     });
 }

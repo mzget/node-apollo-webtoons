@@ -9,7 +9,7 @@ import {
 
 /** resolver fucntions */
 import { findPrograms } from "./resolver/programResolvers";
-import { findItems as FindSeason } from "./resolver/seasonResolvers";
+import * as seasonResolves from "./resolver/seasonResolvers";
 import { findContent, findContents, updateContent } from "./resolver/contentResolvers";
 
 const resolvers = {
@@ -19,18 +19,24 @@ const resolvers = {
         },
         async seasons(obj, args, context, info) {
             const { programId } = args as { programId: string };
-            const seasons = await FindSeason(programId);
+            const seasons = await seasonResolves.findItems(programId);
             return seasons;
         },
         async season(obj, args, context, info) {
             const { programId, id } = args as { programId: string, id: number };
-            const seasons = await FindSeason(programId);
-            return seasons[id];
+            const seasons = await seasonResolves.findSeasonByNumber(id);
+            return seasons[0];
         },
         async contents(obj, args, context, info) {
-            const { seasonId, programId } = args as { seasonId: string, programId: string };
-            if (programId || seasonId) {
-                const docs = await findContents(programId, seasonId);
+            const { seasonNo, programId } = args as { seasonNo: number, programId: string };
+
+            let seasonInfo = {} as any;
+            if (seasonNo) {
+                const seasons = await seasonResolves.findSeasonByNumber(seasonNo);
+                seasonInfo = seasons[0];
+            }
+            if (programId || seasonNo) {
+                const docs = await findContents(programId, seasonInfo._id);
                 return docs;
             } else {
                 return null;
@@ -58,7 +64,7 @@ const resolvers = {
     },
     Content: {
         season: async (content) => {
-            const seasons = await FindSeason(content.programId);
+            const seasons = await seasonResolves.findItems(content.programId);
             const results = seasons.filter((season) => {
                 return `${season._id}` === `${content.seasonId}`;
             });

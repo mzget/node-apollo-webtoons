@@ -11,3 +11,13 @@ export async function findItems(programId: string) {
 
     return docs;
 }
+
+// FindSeasonByNumber
+export async function findSeasonByNumber(seasonNo: number) {
+    const client = await getClient();
+    const collection = client.db(database).collection(dbCollections.SEASONS);
+
+    const docs = await collection.find({ no: seasonNo }).limit(1).toArray();
+
+    return docs;
+}

@@ -20,3 +20,13 @@ function findItems(programId) {
     });
 }
 exports.findItems = findItems;
+// FindSeasonByNumber
+function findSeasonByNumber(seasonNo) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const client = yield dbClient_1.getClient();
+        const collection = client.db(dbClient_1.database).collection(config_1.dbCollections.SEASONS);
+        const docs = yield collection.find({ no: seasonNo }).limit(1).toArray();
+        return docs;
+    });
+}
+exports.findSeasonByNumber = findSeasonByNumber;

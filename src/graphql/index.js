@@ -12,7 +12,7 @@ const graphql_tools_1 = require("graphql-tools");
 const schema_1 = require("./schema");
 /** resolver fucntions */
 const programResolvers_1 = require("./resolver/programResolvers");
-const seasonResolvers_1 = require("./resolver/seasonResolvers");
+const seasonResolves = require("./resolver/seasonResolvers");
 const contentResolvers_1 = require("./resolver/contentResolvers");
 const resolvers = {
     Query: {
@@ -22,22 +22,27 @@ const resolvers = {
         seasons(obj, args, context, info) {
             return __awaiter(this, void 0, void 0, function* () {
                 const { programId } = args;
-                const seasons = yield seasonResolvers_1.findItems(programId);
+                const seasons = yield seasonResolves.findItems(programId);
                 return seasons;
             });
         },
         season(obj, args, context, info) {
             return __awaiter(this, void 0, void 0, function* () {
                 const { programId, id } = args;
-                const seasons = yield seasonResolvers_1.findItems(programId);
-                return seasons[id];
+                const seasons = yield seasonResolves.findSeasonByNumber(id);
+                return seasons[0];
             });
         },
         contents(obj, args, context, info) {
             return __awaiter(this, void 0, void 0, function* () {
-                const { seasonId, programId } = args;
-                if (programId || seasonId) {
-                    const docs = yield contentResolvers_1.findContents(programId, seasonId);
+                const { seasonNo, programId } = args;
+                let seasonInfo = {};
+                if (seasonNo) {
+                    const seasons = yield seasonResolves.findSeasonByNumber(seasonNo);
+                    seasonInfo = seasons[0];
+                }
+                if (programId || seasonNo) {
+                    const docs = yield contentResolvers_1.findContents(programId, seasonInfo._id);
                     return docs;
                 }
                 else {
@@ -71,7 +76,7 @@ const resolvers = {
     },
     Content: {
         season: (content) => __awaiter(this, void 0, void 0, function* () {
-            const seasons = yield seasonResolvers_1.findItems(content.programId);
+            const seasons = yield seasonResolves.findItems(content.programId);
             const results = seasons.filter((season) => {
                 return `${season._id}` === `${content.seasonId}`;
             });
