@@ -18,9 +18,9 @@ console.log("listen on ", process.env.PORT);
 nconf.argv().env().file("keys.json");
 const database = nconf.get("mongoDatabase");
 dbClient_1.InitDatabaseConnection().then((client) => client.db(database).stats().then((stat) => {
-    console.log("Success to connect db", stat);
+    console.log("Success to connect db", stat.db);
 })).catch((err) => {
-    console.error(err.message);
+    console.error("Fail to connect db", err.message);
 });
 const routes_1 = require("./routes");
 // uncomment after placing your favicon in /public

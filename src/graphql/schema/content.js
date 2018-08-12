@@ -18,6 +18,6 @@ input ContentInput {
   src: String!
   seasonId: String!
   programId: String!
-  name: InputLang!
+  name: InputLang
 }
 `];

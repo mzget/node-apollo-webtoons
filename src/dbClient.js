@@ -29,22 +29,30 @@ exports.getClient = () => {
 };
 function InitDatabaseConnection() {
     return __awaiter(this, void 0, void 0, function* () {
-        const opt = { reconnectTries: Number.MAX_VALUE };
-        console.log(uri);
-        client = yield MongoClient.connect(uri, opt);
-        client.on("close", (err) => {
-            console.error("close", err);
-        });
-        client.on("error", (err) => {
-            console.error("error", err);
-        });
-        client.on("timeout", (err) => {
-            console.error("timeout", err);
-        });
-        client.on("reconnect", (server) => {
-            console.log("reconnect", server);
-        });
-        return client;
+        try {
+            const opt = {
+                reconnectTries: Number.MAX_VALUE,
+                useNewUrlParser: true,
+            };
+            console.log(`connect to ${uri}`);
+            client = yield MongoClient.connect(uri, opt);
+            client.on("close", (err) => {
+                console.error("close", err);
+            });
+            client.on("error", (err) => {
+                console.error("error", err);
+            });
+            client.on("timeout", (err) => {
+                console.error("timeout", err);
+            });
+            client.on("reconnect", (server) => {
+                console.log("reconnect", server);
+            });
+            return client;
+        }
+        catch (ex) {
+            return Promise.reject(ex.message);
+        }
     });
 }
 exports.InitDatabaseConnection = InitDatabaseConnection;

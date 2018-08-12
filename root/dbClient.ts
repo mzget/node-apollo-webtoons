@@ -9,7 +9,7 @@ const user = nconf.get("mongoUser");
 const pass = nconf.get("mongoPass");
 const host = nconf.get("mongoHost");
 const port = nconf.get("mongoPort");
-export const database = nconf.get("mongoDatabase");
+export const database = nconf.get("mongoDatabase") as string;
 
 let uri = `mongodb://${user}:${pass}@${host}:${port}`;
 if (database) {
@@ -21,27 +21,34 @@ export const getClient = () => {
     return client;
 };
 export async function InitDatabaseConnection() {
-    const opt = { reconnectTries: Number.MAX_VALUE } as mongodb.MongoClientOptions;
+    try {
+        const opt = {
+            reconnectTries: Number.MAX_VALUE,
+            useNewUrlParser: true,
+        } as mongodb.MongoClientOptions;
 
-    console.log(uri);
+        console.log(`connect to ${uri}`);
 
-    client = await MongoClient.connect(uri, opt);
+        client = await MongoClient.connect(uri, opt);
 
-    client.on("close", (err: any) => {
-        console.error("close", err);
-    });
+        client.on("close", (err: any) => {
+            console.error("close", err);
+        });
 
-    client.on("error", (err: any) => {
-        console.error("error", err);
-    });
+        client.on("error", (err: any) => {
+            console.error("error", err);
+        });
 
-    client.on("timeout", (err: any) => {
-        console.error("timeout", err);
-    });
+        client.on("timeout", (err: any) => {
+            console.error("timeout", err);
+        });
 
-    client.on("reconnect", (server: any) => {
-        console.log("reconnect", server);
-    });
+        client.on("reconnect", (server: any) => {
+            console.log("reconnect", server);
+        });
 
-    return client;
+        return client;
+    } catch (ex) {
+        return Promise.reject(ex.message);
+    }
 }

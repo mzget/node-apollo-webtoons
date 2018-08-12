@@ -17,14 +17,12 @@ console.log("listen on ", process.env.PORT);
 // Read in keys and secrets. Using nconf use can set secrets via
 // environment variables, command-line arguments, or a keys.json file.
 nconf.argv().env().file("keys.json");
-
-const database = nconf.get("mongoDatabase");
-InitDatabaseConnection().then((client) =>
-  client.db(database).stats().then((stat) => {
-    console.log("Success to connect db", stat);
-  }),
+const database = nconf.get("mongoDatabase") as string;
+InitDatabaseConnection().then((client) => client.db(database).stats().then((stat) => {
+  console.log("Success to connect db", stat.db);
+}),
 ).catch((err) => {
-  console.error(err.message);
+  console.error("Fail to connect db", err.message);
 });
 
 import index from "./routes";
