@@ -10,6 +10,7 @@ const apollo_server_express_1 = require("apollo-server-express");
 const nconf = require("nconf");
 const dbClient_1 = require("./dbClient");
 const graphql_1 = require("./graphql");
+const routes_1 = require("./routes");
 const app = express();
 app.use(cors());
 console.log("listen on ", process.env.PORT);
@@ -22,7 +23,6 @@ dbClient_1.InitDatabaseConnection().then((client) => client.db(database).stats()
 })).catch((err) => {
     console.error("Fail to connect db", err.message);
 });
-const routes_1 = require("./routes");
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger("dev"));

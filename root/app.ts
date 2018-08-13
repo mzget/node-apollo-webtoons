@@ -9,6 +9,7 @@ import * as nconf from "nconf";
 
 import { InitDatabaseConnection } from "./dbClient";
 import schema from "./graphql";
+import index from "./routes";
 
 const app = express();
 app.use(cors());
@@ -24,8 +25,6 @@ InitDatabaseConnection().then((client) => client.db(database).stats().then((stat
 ).catch((err) => {
   console.error("Fail to connect db", err.message);
 });
-
-import index from "./routes";
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
