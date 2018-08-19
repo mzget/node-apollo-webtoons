@@ -6,3 +6,6 @@ $ docker push mzget/node-webtoons
 
 // pull for production
 $ docker pull mzget/node-webtoons
+
+// Deploy on GCP.
+gcloud app deploy
